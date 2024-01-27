@@ -1,0 +1,12 @@
+<class_libraries>
+  <library path="lib/libdwb_rsc_local_planner">
+    <class type="dwb_rsc_local_planner::DWBRSCLocalPlanner" base_class_type="nav_core2::LocalPlanner">
+      <description></description>
+    </class>
+  </library>
+  <library path="lib/libdebug_dwb_rsc_local_planner">
+    <class type="dwb_rsc_local_planner::DebugDWBRSCLocalPlanner" base_class_type="nav_core2::LocalPlanner">
+      <description></description>
+    </class>
+  </library>
+</class_libraries>
