@@ -579,14 +579,21 @@ nav_2d_msgs::Twist2DStamped DWBRSCLocalPlanner::computeRotateToHeadingCommand(
     const double sign = angular_distance_to_heading > 0.0 ? 1.0 : -1.0;
     double angular_vel = sign * rotate_to_heading_angular_vel_;
     const double &dt = control_duration_;
-    const double min_feasible_angular_speed = velocity.theta - max_angular_accel_ * dt;
-    const double max_feasible_angular_speed = velocity.theta + max_angular_accel_ * dt;
-
-    if (angular_vel > max_feasible_angular_speed){
-        angular_vel = max_feasible_angular_speed;
+    
+    if (angular_distance_to_heading > 0){
+      angular_vel = (angular_distance_to_heading - angular_dist_threshold_) + max_angular_accel_ * dt;
     }
-    else if (angular_vel < min_feasible_angular_speed){
-        angular_vel = min_feasible_angular_speed;
+    else if (angular_distance_to_heading < 0){
+      angular_vel = (angular_distance_to_heading + angular_dist_threshold_) - max_angular_accel_ * dt;
+    }
+
+    if (fabs(angular_vel) > rotate_to_heading_angular_vel_){
+      if (angular_vel > 0){
+        angular_vel = rotate_to_heading_angular_vel_;
+      }
+      else if (angular_vel < 0){
+        angular_vel = -rotate_to_heading_angular_vel_;
+      }  
     }
     cmd_vel.velocity.theta = angular_vel;
 
