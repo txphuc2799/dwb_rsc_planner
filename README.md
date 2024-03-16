@@ -10,5 +10,3 @@ $ git clone https://github.com/txphuc2799/dwb_rsc_local_planner.git
 $ cd ..
 $ catkin_make
 ```
-## Video demo
-[![Video](https://img.youtube.com/vi/szuLjqeD2IY/maxresdefault.jpg)](https://www.youtube.com/watch?v=szuLjqeD2IY)
