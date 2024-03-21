@@ -6,7 +6,9 @@ I noticed that ROS2 has a [Rotation Shim Controller](https://github.com/ros-plan
 After downloading, first, you need to place the **dwb_rsc_msgs** package in your workspace, for example: catkin_ws/src. After that, build that workspace before adding the remaining 4 packages; otherwise, errors may occur.
 ```
 $ cd your-catkin-workspace/src
-$ git clone https://github.com/txphuc2799/dwb_rsc_local_planner.git
+$ git clone https://github.com/txphuc2799/dwb_rsc_planner.git
 $ cd ..
+$ rosdep install --from-paths src --ignore-src -r -y
+$ catkin_make --pkg dwb_rsc_msgs
 $ catkin_make
 ```
