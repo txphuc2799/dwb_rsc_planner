@@ -16,8 +16,8 @@ generate_dynamic_reconfigure_options(cfg/KinematicParams.cfg)
 
 catkin_package(
     INCLUDE_DIRS include
+    LIBRARIES ${PROJECT_NAME}
     CATKIN_DEPENDS angles dwb_rsc_local_planner dynamic_reconfigure nav_2d_msgs nav_2d_utils nav_core2 pluginlib roscpp
-    LIBRARIES simple_goal_checker stopped_goal_checker standard_traj_generator
 )
 
 include_directories(
