@@ -18,7 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
     INCLUDE_DIRS include
-    LIBRARIES dwb_local_planner debug_dwb_local_planner trajectory_utils
+    LIBRARIES ${PROJECT_NAME}
     CATKIN_DEPENDS
         dwb_rsc_msgs geometry_msgs nav_2d_msgs nav_2d_utils nav_core2
         nav_msgs pluginlib roscpp sensor_msgs tf visualization_msgs
