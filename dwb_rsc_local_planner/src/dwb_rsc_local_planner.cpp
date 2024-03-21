@@ -51,7 +51,7 @@ template <typename T>
 T
 clamp(T x, T min, T max)
 {
-    return std::min(std::max(min, x), max);
+    return (x > 0) ? std::min(std::max(min, x), max) : std::min(std::max(max, x), min);
 }
 
 namespace dwb_rsc_local_planner
