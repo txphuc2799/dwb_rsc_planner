@@ -47,6 +47,13 @@
 #include <utility>
 #include <vector>
 
+template <typename T>
+T
+clamp(T x, T min, T max)
+{
+    return std::min(std::max(min, x), max);
+}
+
 namespace dwb_rsc_local_planner
 {
 
@@ -577,25 +584,13 @@ nav_2d_msgs::Twist2DStamped DWBRSCLocalPlanner::computeRotateToHeadingCommand(
     cmd_vel.header = pose.header;
 
     const double sign = angular_distance_to_heading > 0.0 ? 1.0 : -1.0;
-    double angular_vel = sign * rotate_to_heading_angular_vel_;
+    const double angular_vel = sign * rotate_to_heading_angular_vel_;
     const double &dt = control_duration_;
-    
-    if (angular_distance_to_heading > 0){
-      angular_vel = (angular_distance_to_heading - angular_dist_threshold_) + max_angular_accel_ * dt;
-    }
-    else if (angular_distance_to_heading < 0){
-      angular_vel = (angular_distance_to_heading + angular_dist_threshold_) - max_angular_accel_ * dt;
-    }
 
-    if (fabs(angular_vel) > rotate_to_heading_angular_vel_){
-      if (angular_vel > 0){
-        angular_vel = rotate_to_heading_angular_vel_;
-      }
-      else if (angular_vel < 0){
-        angular_vel = -rotate_to_heading_angular_vel_;
-      }  
-    }
-    cmd_vel.velocity.theta = angular_vel;
+    const double positive_angular_vel = (angular_distance_to_heading - angular_dist_threshold_) + max_angular_accel_ * dt;
+    const double negative_angular_vel = (angular_distance_to_heading + angular_dist_threshold_) - max_angular_accel_ * dt;
+    
+    cmd_vel.velocity.theta = clamp(angular_vel, negative_angular_vel, positive_angular_vel);
 
     return cmd_vel;
 }
