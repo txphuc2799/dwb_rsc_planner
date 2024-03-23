@@ -29,26 +29,26 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(dwb_rsc_local_planner src/dwb_rsc_local_planner.cpp
-                                  src/backwards_compatibility.cpp
-                                  src/publisher.cpp
-                                  src/illegal_trajectory_tracker.cpp
+add_library(${PROJECT_NAME} src/dwb_rsc_local_planner.cpp
+                            src/backwards_compatibility.cpp
+                            src/publisher.cpp
+                            src/illegal_trajectory_tracker.cpp
 )
 
-target_link_libraries(dwb_rsc_local_planner ${catkin_LIBRARIES})
-add_dependencies(dwb_rsc_local_planner ${catkin_EXPORTED_TARGETS})
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
 
-add_library(debug_dwb_rsc_local_planner src/debug_dwb_rsc_local_planner.cpp)
-target_link_libraries(debug_dwb_rsc_local_planner ${catkin_LIBRARIES} dwb_rsc_local_planner)
-add_dependencies(debug_dwb_rsc_local_planner ${catkin_EXPORTED_TARGETS})
+add_library(debug_${PROJECT_NAME} src/debug_dwb_rsc_local_planner.cpp)
+target_link_libraries(debug_${PROJECT_NAME} ${catkin_LIBRARIES} ${PROJECT_NAME})
+add_dependencies(debug_${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
 
 add_library(rsc_trajectory_utils src/trajectory_utils.cpp)
 target_link_libraries(rsc_trajectory_utils ${catkin_LIBRARIES})
 
-add_executable(${PROJECT_NAME}_planner_node src/planner_node.cpp)
-target_link_libraries(${PROJECT_NAME}_planner_node ${catkin_LIBRARIES} debug_dwb_rsc_local_planner)
-add_dependencies(${PROJECT_NAME}_planner_node ${catkin_EXPORTED_TARGETS})
-set_target_properties(${PROJECT_NAME}_planner_node PROPERTIES OUTPUT_NAME planner_node PREFIX "")
+add_executable(${PROJECT_NAME}_node src/planner_node.cpp)
+target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES} debug_${PROJECT_NAME})
+add_dependencies(${PROJECT_NAME}_node ${catkin_EXPORTED_TARGETS})
+set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME planner_node PREFIX "")
 
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
@@ -60,10 +60,10 @@ if(CATKIN_ENABLE_TESTING)
   target_link_libraries(utils_test trajectory_utils)
 endif()
 
-install(TARGETS ${PROJECT_NAME}_planner_node
+install(TARGETS ${PROJECT_NAME}_node
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-install(TARGETS dwb_rsc_local_planner debug_dwb_rsc_local_planner rsc_trajectory_utils
+install(TARGETS ${PROJECT_NAME} debug_${PROJECT_NAME} rsc_trajectory_utils
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
